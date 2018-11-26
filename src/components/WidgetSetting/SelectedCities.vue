@@ -8,7 +8,6 @@
       <div
         class="CityButtonDell01" 
         id="CityButtonDell01" 
-        v-on:click="delCity(widget.id)"
         style="
           display: flex;
           height: 50px;
@@ -27,7 +26,7 @@
         >
         </div>
         <span></span>
-        <div style="font-size: x-large; margin: auto 5px auto 5px; cursor: pointer;">✖</div>
+        <div v-on:click="delCity(widget.id)" style="font-size: x-large; margin: auto 5px auto 5px; cursor: pointer;">✖</div>
         <span
           style="margin: auto 5px auto 5px;">
           <span class="badge badge-info m-1">{{widget.widgetOption.option}}</span>

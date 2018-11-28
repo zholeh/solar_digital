@@ -17,7 +17,7 @@
     
       <div v-if="showDeteils">
         <div v-for="dayList in widget.city.list" 
-          :key="dayList.date" 
+          :key="dayList.date.getTime()" 
           style="display: flex;" class=""
         >
           <div class="card-body small">
@@ -34,7 +34,7 @@
             
             <div 
               v-for="hourList in dayList.list" 
-              :key="'' + widget.city.id + dayList.date + hourList.date" 
+              :key="'' + widget.city.id + dayList.date.getTime() + hourList.date.getTime()" 
               style="display: flex; padding-left: .5rem;" 
               class="card-text"
             >

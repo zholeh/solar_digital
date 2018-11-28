@@ -21,14 +21,14 @@
         justify-content: flex-start;
         align-items: flex-start;"
         >
-        <div v-for="dayList in widget.city.list" :key="'' + widget.id + dayList.date"
+        <div v-for="dayList in widget.city.list" :key="'' + widget.id + dayList.date.getTime()"
           style="display: flex;
                 justify-content: flex-start;
                 align-items: flex-start;"
         >
           <div 
             v-for="hourList in dayList.list" 
-            :key="'' + widget.id + dayList.date + hourList.date" 
+            :key="'' + widget.id + dayList.date.getTime() + hourList.date.getTime()" 
             style="width: 80px; text-align: center;" 
             class="card-text"
           >

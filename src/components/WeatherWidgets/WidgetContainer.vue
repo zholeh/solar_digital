@@ -3,7 +3,6 @@
     <div  
       v-for="widget in $store.state.widgetList" 
       :key="widget.id + widget.widgetOption.option" 
-      :id="widget.id"
       class="wether-widgets"
     >
       <div id="WidgetContainer">

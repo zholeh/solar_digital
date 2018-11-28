@@ -5,7 +5,6 @@
         <div
           v-for="widget in list"
           :key="widget.id + widget.widgetOption.option"
-          :id="widget.id"
         >
           <div
             id="CityButtonDell01"

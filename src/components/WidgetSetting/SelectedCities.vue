@@ -83,7 +83,7 @@ export default {
           return this.$store.state.widgetList;
       },
       set(value) {
-          this.$store.commit('updateWeathersList', value);
+          this.$store.commit('updateWeathers', value);
       }
     }
   }

@@ -36,7 +36,12 @@ export default {
   methods: {
     beforUnload: function() {
       const widgetList = this.$store.state.widgetList.map(el => {
-        el.widgetOption.lastUpdate = 0;
+        const newState = {
+          id: el.id,
+          name: el.name,
+          widgetOption: Object.assign({}, el.widgetOption),
+        }
+        newState.widgetOption.lastUpdate = 0;
         return el;
       });
       localStorage.setItem("widgetList", JSON.stringify(widgetList));

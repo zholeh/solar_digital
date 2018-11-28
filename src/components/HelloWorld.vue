@@ -3,7 +3,7 @@
     <h1>{{ msg }}</h1>
     <div class="form-group">
       <WidgetContainer></WidgetContainer>
-      <div v-if="$store.state.weatherWidgets.length <= 0" style="text-align: center;">
+      <div v-if="$store.state.widgetList.length <= 0" style="text-align: center;">
         <router-link to="/widgetSettings/1" class="btn btn-primary btn-lg">Select city</router-link>
       </div>
     </div>

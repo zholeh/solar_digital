@@ -10,14 +10,16 @@
           {{ cond.context }}
         </span>
       </div>
-      <img :src="`http://openweathermap.org/images/flags/${city.country.toLowerCase()}.png`">
-      {{city.name}} <span class="badge badge-info m-1">simple</span>, ID: {{city.id}}, {{city.country}}
+      <img :src="`http://openweathermap.org/images/flags/${widget.country.toLowerCase()}.png`">
+      {{widget.name}} <span class="badge badge-info m-1">simple</span>, ID: {{widget.id}}, {{widget.country}}
     </span>
     <div v-if="showDeteils" style="padding-left: 0.5rem;"> 
       <p class="m-0">
-        <span class="badge badge-info">{{ city.main.temp | roundToInt }}°С</span>Temperature from {{ city.main.temp_min | roundToInt }} to {{ city.main.temp_max | roundToInt }}°С, wind {{ city.wind.speed }} m/s, clouds {{ city.clouds.all }}%, {{ city.main.pressure }} hpa</p>
+        <span class="badge badge-info">{{ widget.city.main.temp | roundToInt }}°С</span>
+        Temperature from {{ widget.city.main.temp_min | roundToInt }} to {{ widget.city.main.temp_max | roundToInt }}°С, wind {{ widget.city.wind.speed }} m/s, clouds {{ widget.city.clouds.all }}%, {{ widget.city.main.pressure }} hpa
+      </p>
       <p class="m-0">
-        <a :href="hrefOpenWeatheZoom">Geo coordsx [{{ city.coord.lat }}, {{ city.coord.lon }}]</a>
+        <a :href="hrefOpenWeatheZoom">Geo coordsx [{{ widget.city.coord.lat }}, {{ widget.city.coord.lon }}]</a>
       </p>
     </div> 
   </div>
@@ -43,7 +45,7 @@ import { updateWidget } from './API'
 export default {
   name: "Simple",
   props: {
-    city: {
+    widget: {
       type: Object,
       required: true
     }
@@ -63,20 +65,20 @@ export default {
   },
   computed: {
     cloudImage: function() {
-      return this.city.weather.length > 0
-        ? `http://openweathermap.org/img/w/${this.city.weather[0].icon.toLowerCase()}.png`
+      return this.widget.city.weather.length > 0
+        ? `http://openweathermap.org/img/w/${this.widget.city.weather[0].icon.toLowerCase()}.png`
         : "";
     },
     hrefOpenWeatheZoom: function() {
       return `https://openweathermap.org/weathermap?zoom=12&lat=${
-        this.city.coord.lat
-      }&lon=${this.city.coord.lon}`;
+        this.widget.city.coord.lat
+      }&lon=${this.widget.city.coord.lon}`;
     },
     showDeteils: function() {
       return (
         this.cond.wrap &&
-        (this.city.widgetOption === undefined ||
-          this.city.widgetOption.filled === true)
+        this.widget.city !== undefined &&
+        this.widget.widgetOption.filled === true
       );
     }
   },
@@ -86,7 +88,7 @@ export default {
       this.cond.context = this.cond.wrap ? "⮟" : "⮝";
     },
     btnUpdateClick: function() {
-      updateWidget(this.city, this.$store);
+      updateWidget(this.widget, this.$store);
     }
   }
 };

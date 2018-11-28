@@ -5,77 +5,50 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    weatherWidgets: [],
     widgetList: []
   },
   mutations: {
-    addWeatherWidget(state, city) {
-      state.weatherWidgets.push(city);
-    },
-    delWeatherWidget(state, index) {
-      state.weatherWidgets.splice(index, 1);
-    },
-    updateWeatherWidget(state, opt) {
-      state.weatherWidgets.splice(opt.index, 1, opt.city);
-    },
-    addWidgetList(state, widget) {
+    addWidgetToList(state, widget) {
       state.widgetList.push(widget);
     },
-    delWidgetList(state, index) {
+    delWidgetFromList(state, index) {
       state.widgetList.splice(index, 1);
     },
-    updateWeatherList(state, opt) {
-      state.widgetList.splice(opt.index, 1, opt.city);
+    updateWeatherFromList(state, opt) {
+      state.widgetList.splice(opt.index, 1, opt.widget);
     },
-    updateWeathersList(state, opt) {
+    updateWeathers(state, opt) {
       state.widgetList = opt;
     }
   },
   actions: {
     addWeatherWidget({ state, commit }, city) {
-      let index = state.weatherWidgets.findIndex(el => (el.id === city.id && el.widgetOption.option === city.widgetOption.option));
-      if (index < 0) commit("addWeatherWidget", city);
       const widget = {
         name: city.name,
         id: city.id,
-        country: city.sys.country,
+        country: city.country,
         widgetOption: city.widgetOption,
       } 
-      index = state.widgetList.findIndex(el => (el.id === city.id && el.widgetOption.option === city.widgetOption.option));
-      if (index < 0) commit("addWidgetList", widget);
+      const index = state.widgetList.findIndex(el => (el.id === city.id && el.widgetOption.option === city.widgetOption.option));
+      if (index < 0) commit("addWidgetToList", widget);
     },
 
     delWeatherWidget({ state, commit }, id) {
-      let index = state.weatherWidgets.findIndex(el => el.id === id);
-      if (index >= 0) commit("delWeatherWidget", index);
-      index = state.widgetList.findIndex(el => el.id === id);
-      if (index >= 0) commit("delWidgetList", index);
+      let index = state.widgetList.findIndex(el => el.id === id);
+      if (index >= 0) commit("delWidgetFromList", index);
     },
 
-    updateWeatherWidget({ state, commit }, city) {
+    updateWeatherWidget({ state, commit }, widget) {
 
-      let widget = Object.assign({}, city);
       if (widget.widgetOption.filled !== undefined) widget.widgetOption.lastUpdate = Date.now();
-      let index = state.weatherWidgets.findIndex(el => (el.id === widget.id && el.widgetOption.option === widget.widgetOption.option));
-      let newState = {
-        index: index,
-        city: widget
+      const index = state.widgetList.findIndex(el => (el.id === widget.id && el.widgetOption.option === widget.widgetOption.option));
+      if (index >= 0) {
+        const newState = {
+          index: index,
+          widget: widget
+        }  
+        commit("updateWeatherFromList", newState);
       }
-      if (index >= 0) commit("updateWeatherWidget", newState);
-      else commit("addWeatherWidget", widget);
-      const widgetList = {
-        name: widget.name,
-        id: widget.id,
-        country: widget.country,
-        widgetOption: widget.widgetOption,
-      } 
-      index = state.widgetList.findIndex(el => (el.id === widgetList.id && el.widgetOption.option === widgetList.widgetOption.option));
-      newState = {
-        index: index,
-        city: widgetList
-      }
-      if (index >= 0) commit("updateWeatherList", newState);
-      else commit("addWeatherWidget", widgetList);
     }
   }
 });

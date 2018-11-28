@@ -21,16 +21,15 @@
     <div v-if="!fetchError">
       <div class="form-group">
         <div  
-          v-for="city in citiesList" 
-          :key="city.id" 
-          :id="city.id"
+          v-for="widget in citiesList" 
+          :key="widget.id"
         >
           <b-dropdown variant="outline-success" size="sm" id="ddown1" text="Add widget" class="m-md-2">
-            <b-dropdown-item @click="add(city, 'simple-daily')">Simple daily widet </b-dropdown-item>
-            <b-dropdown-item @click="add(city, 'simple-5-day')">Simple 5 day widet </b-dropdown-item>
-            <b-dropdown-item @click="add(city, 'horizontal-5-day')">Horizontal 5 day widet </b-dropdown-item>
+            <b-dropdown-item @click="add(widget, 'simple-daily')">Simple daily widet </b-dropdown-item>
+            <b-dropdown-item @click="add(widget, 'simple-5-day')">Simple 5 day widet </b-dropdown-item>
+            <b-dropdown-item @click="add(widget, 'horizontal-5-day')">Horizontal 5 day widet </b-dropdown-item>
           </b-dropdown>
-          <SimpleWidget v-bind:city="city"></SimpleWidget> 
+          <SimpleWidget v-bind:widget="widget"></SimpleWidget> 
         </div>
       </div>
     </div>
@@ -100,14 +99,31 @@ export default {
     getCities: async function() {
       const resp = await getCitiesAPI(this.cityName);
 
-      this.citiesList = resp.citiesList;
+      this.citiesList = resp.citiesList.map((el) => {
+        return {
+          id: el.id,
+          name: el.name,
+          id: el.id,
+          country: el.country,
+          widgetOption: {
+            option: 'simple-daily',
+            lastUpdate: Date.now(),
+            filled: true
+          },
+          city: Object.assign({}, el)
+        }
+      });
       this.fetchError = resp.fetchError;
     },
-    add: function(city, option) {
-      const newState = Object.assign({}, city);
-      newState.widgetOption = {
-        option: option,
-        lastUpdate: 0
+    add: function(widget, option) {
+      const newState = {
+        id: widget.id,
+        name: widget.name,
+        country: widget.country,
+        widgetOption: {
+          option: option,
+          lastUpdate: 0
+        }
       };
       this.$store.dispatch("addWeatherWidget", newState);
     },
@@ -115,7 +131,20 @@ export default {
     findByGeo: async function() {
 
       function callbackResult(resp) {
-        this.citiesList = resp.citiesList;
+        this.citiesList = resp.citiesList.map((el) => {
+          return {
+            id: el.id,
+            name: el.name,
+            id: el.id,
+            country: el.country,
+            widgetOption: {
+              option: 'simple-daily',
+              lastUpdate: Date.now(),
+              filled: true
+            },
+            city: Object.assign({}, el)
+          }
+        });
         this.fetchError = resp.fetchError;
       }
       findByGeoAPI(callbackResult.bind(this));

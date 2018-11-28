@@ -1,15 +1,15 @@
 <template>
-  <div v-if="$store.state.weatherWidgets.length > 0">
+  <div v-if="$store.state.widgetList.length > 0">
     <div  
-      v-for="widget in $store.state.weatherWidgets" 
+      v-for="widget in $store.state.widgetList" 
       :key="widget.id + widget.widgetOption.option" 
       :id="widget.id"
       class="wether-widgets"
     >
       <div id="WidgetContainer">
-        <SimpleWidget v-if="isDaily(widget)" v-bind:city="widget"></SimpleWidget>
-        <Simple5day v-else-if="is5Day(widget)" v-bind:city="widget"></Simple5day>
-        <Horizontal5day v-else-if="is5DayHorizontal(widget)" v-bind:city="widget"></Horizontal5day>
+        <SimpleWidget v-if="isDaily(widget)" v-bind:widget="widget"></SimpleWidget>
+        <Simple5day v-else-if="is5Day(widget)" v-bind:widget="widget"></Simple5day>
+        <Horizontal5day v-else-if="is5DayHorizontal(widget)" v-bind:widget="widget"></Horizontal5day>
       </div>
     </div>
   </div>

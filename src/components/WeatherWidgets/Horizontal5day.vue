@@ -11,24 +11,24 @@
             {{ cond.context }}
           </span>
         </div>
-        <img :src="`http://openweathermap.org/images/flags/${city.country.toLowerCase()}.png`">
-        {{city.name}} <span class="badge badge-info m-1">horizontal-5-day</span>, ID: {{city.id}}, {{city.country}}
+        <img :src="`http://openweathermap.org/images/flags/${widget.country.toLowerCase()}.png`">
+        {{widget.name}} <span class="badge badge-info m-1">horizontal-5-day</span>, ID: {{widget.id}}, {{widget.country}}
       </span>
-      <div v-if="this.cond.wrap" class="card-body small" 
+      <div v-if="showDeteils" class="card-body small" 
         style="display: flex;
         flex-wrap: nowrap;
         overflow-x: scroll;
         justify-content: flex-start;
         align-items: flex-start;"
         >
-        <div v-for="dayList in city.list" :key="'' + city.id + dayList.date.getTime()"
+        <div v-for="dayList in widget.city.list" :key="'' + widget.id + dayList.date.getTime()"
           style="display: flex;
                 justify-content: flex-start;
                 align-items: flex-start;"
         >
           <div 
             v-for="hourList in dayList.list" 
-            :key="'' + city.id + dayList.date.getTime() + hourList.date.getTime()" 
+            :key="'' + widget.id + dayList.date.getTime() + hourList.date.getTime()" 
             style="width: 80px; text-align: center;" 
             class="card-text"
           >
@@ -51,7 +51,7 @@ import { updateWidget } from './API'
 export default {
   name: "Simple5day",
   props: {
-    city: {
+    widget: {
       type: Object,
       required: true
     }
@@ -72,6 +72,15 @@ export default {
       }).format(date);
     }
   },
+  computed: {
+    showDeteils: function() {
+      return (
+        this.cond.wrap &&
+        this.widget.city !== undefined &&
+        this.widget.widgetOption.filled === true
+      );
+    }
+  },
   methods: {
     cloudImage: function(hourList) {
       return hourList.weather.length > 0
@@ -83,7 +92,7 @@ export default {
       this.cond.context = this.cond.wrap ? "⮟" : "⮝";
     },
     btnUpdateClick: function() {
-      updateWidget(this.city, this.$store);
+      updateWidget(this.widget, this.$store);
     }
   }
 };

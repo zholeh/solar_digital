@@ -26,7 +26,7 @@
             background-color: brown;"></div>
           <span></span>
           <div
-            v-on:click="delCity(widget.id)"
+            v-on:click="delCity(widget.id, widget.widgetOption.option)"
             style="font-size: x-large; margin: auto 5px auto 5px; cursor: pointer;"
           >✖</div>
           <span style="margin: auto 5px auto 5px;">
@@ -65,8 +65,8 @@ export default {
     }
   },
   methods: {
-    delCity: function(id) {
-      this.$store.dispatch("delWeatherWidget", id);
+    delCity: function(id, option) {
+      this.$store.dispatch("delWeatherWidget", {id: id, option: option});
     }
   },    
   computed: {

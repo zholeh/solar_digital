@@ -33,8 +33,8 @@ export default new Vuex.Store({
       if (index < 0) commit("addWidgetToList", widget);
     },
 
-    delWeatherWidget({ state, commit }, id) {
-      let index = state.widgetList.findIndex(el => el.id === id);
+    delWeatherWidget({ state, commit }, setting) {
+      let index = state.widgetList.findIndex(el => el.id === setting.id && el.widgetOption.option === setting.option);
       if (index >= 0) commit("delWidgetFromList", index);
     },
 

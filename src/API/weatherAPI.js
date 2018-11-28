@@ -3,13 +3,25 @@ import { getCitiesById, getCities5ById } from "./http";
 export function initApp(store) {
   let widgetList = [];
   try {
-    widgetList = JSON.parse(localStorage.getItem("widgetList"));
+    widgetList = JSON.parse(localStorage.getItem("widgetListLS"));
   } catch (e) {
-    localStorage.removeItem("widgetList");
+    localStorage.removeItem("widgetListLS");
   }
 
   if (!Array.isArray(widgetList)) widgetList = [];
-  store.state.widgetList = widgetList;
+  else
+    store.state.widgetList = widgetList.map((el) => {
+      return {
+        id: el.id || 0,
+        name: el.name || "",
+        country: el.country || "",
+        widgetOption: {
+          option:
+            el.widgetOption !== undefined ? el.widgetOption.option || "" : "",
+          lastUpdate: 0
+        }
+      };
+    });
 }
 
 async function updateSimpleByID(list, store) {

@@ -35,16 +35,18 @@ export default {
   name: "HelloWorld",
   methods: {
     beforUnload: function() {
-      const widgetList = this.$store.state.widgetList.map(el => {
-        const newState = {
+      const widgetListLS = this.$store.state.widgetList.map(el => {
+        return {
           id: el.id,
           name: el.name,
-          widgetOption: Object.assign({}, el.widgetOption),
+          country: el.country,
+          widgetOption: {
+            option: el.widgetOption.option,
+            lastUpdate: 0,
+          }
         }
-        newState.widgetOption.lastUpdate = 0;
-        return el;
       });
-      localStorage.setItem("widgetList", JSON.stringify(widgetList));
+      localStorage.setItem("widgetListLS", JSON.stringify(widgetListLS));
     }
   },
   created() {

@@ -103,7 +103,6 @@ export default {
         return {
           id: el.id,
           name: el.name,
-          id: el.id,
           country: el.country,
           widgetOption: {
             option: 'simple-daily',
@@ -135,7 +134,6 @@ export default {
           return {
             id: el.id,
             name: el.name,
-            id: el.id,
             country: el.country,
             widgetOption: {
               option: 'simple-daily',

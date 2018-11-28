@@ -26,6 +26,9 @@ export default new Vuex.Store({
     },
     updateWeatherList(state, opt) {
       state.widgetList.splice(opt.index, 1, opt.city);
+    },
+    updateWeathersList(state, opt) {
+      state.widgetList = opt;
     }
   },
   actions: {
